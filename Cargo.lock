@@ -6554,7 +6554,7 @@ dependencies = [
 
 [[package]]
 name = "wmde-start-menu-settings"
-version = "1.8.1"
+version = "1.9.0"
 dependencies = [
  "futures-util",
  "i18n-embed",
