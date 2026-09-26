@@ -97,9 +97,9 @@ pub enum Message {
     LaunchSelectedApplication,
     SuperKeyPressed,
     AppListConfigUpdated(AppListConfig),
-    ContextMenuAction(Action),
+    ContextMenuAction(Action<Message>),
     /// Surface request from the panel button tooltip.
-    Surface(Action),
+    Surface(Action<Message>),
     LaunchApplicationAt(usize),
     LaunchApplicationWithActionAt(usize, usize),
     PinToAppTrayIndex(usize, bool),
@@ -429,9 +429,7 @@ impl Application for Applet {
                 Task::none()
             }
             Message::ContextMenuAction(action) | Message::Surface(action) => {
-                return cosmic::task::message(cosmic::Action::Cosmic(
-                    cosmic::app::Action::Surface(action),
-                ));
+                return cosmic::task::message(cosmic::Action::Surface(action));
             }
             Message::ScrollUpdated(viewport) => {
                 self.scroll_offset = viewport.absolute_offset().y;
