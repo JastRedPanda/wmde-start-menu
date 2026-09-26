@@ -133,7 +133,7 @@ impl cosmic::Application for AppModel {
                 ],
             ),
         )])
-        .item_height(ItemHeight::Dynamic(40))
+        .item_height(ItemHeight::Dynamic(20))
         .item_width(ItemWidth::Uniform(240));
 
         vec![menu_bar.into()]

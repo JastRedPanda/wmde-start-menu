@@ -749,33 +749,23 @@ impl Applet {
     }
 
     fn view_context_menu(&self) -> Element<'_, Message> {
+        use cosmic::widget::menu;
+        let item = |label: String, tool: SystemTool| {
+            cosmic::applet::menu_item(
+                row![menu::icon_column(None), cosmic::widget::text::body(label)]
+                    .align_y(Alignment::Center),
+            )
+            .on_press(Message::LaunchTool(tool))
+        };
         let context_menu = column![
-            cosmic::applet::menu_button(
-                row![cosmic::widget::text::body(fl!("settings")),].align_y(Alignment::Center)
-            )
-            .class(cosmic::theme::Button::AppletMenu)
-            .on_press(Message::LaunchTool(SystemTool::APPLET_SETTINGS)),
-            cosmic::applet::padded_control(cosmic::widget::divider::horizontal::default()),
-            cosmic::applet::menu_button(
-                row![cosmic::widget::text::body(fl!("settings-label")),].align_y(Alignment::Center)
-            )
-            .class(cosmic::theme::Button::AppletMenu)
-            .on_press(Message::LaunchTool(SystemTool::SYSTEM_SETTINGS)),
-            cosmic::applet::menu_button(
-                row![cosmic::widget::text::body(fl!("system-monitor-label")),]
-                    .align_y(Alignment::Center)
-            )
-            .class(cosmic::theme::Button::AppletMenu)
-            .on_press(Message::LaunchTool(SystemTool::SYSTEM_MONITOR)),
-            cosmic::applet::menu_button(
-                row![cosmic::widget::text::body(fl!("disks-label")),].align_y(Alignment::Center)
-            )
-            .class(cosmic::theme::Button::AppletMenu)
-            .on_press(Message::LaunchTool(SystemTool::DISK_MANAGEMENT)),
-        ]
-        .padding([8, 0]);
+            item(fl!("settings"), SystemTool::APPLET_SETTINGS),
+            menu::divider(),
+            item(fl!("settings-label"), SystemTool::SYSTEM_SETTINGS),
+            item(fl!("system-monitor-label"), SystemTool::SYSTEM_MONITOR),
+            item(fl!("disks-label"), SystemTool::DISK_MANAGEMENT),
+        ];
 
-        self.core.applet.popup_container(context_menu).into()
+        self.core.applet.menu_popup_container(context_menu).into()
     }
 
     fn select_previous_app(&mut self) -> cosmic::Task<cosmic::Action<Message>> {
