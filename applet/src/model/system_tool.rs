@@ -13,7 +13,7 @@ impl SystemTool {
         exec: "wmde-settings",
     };
     pub const SYSTEM_MONITOR: SystemTool = Self {
-        exec: "gnome-system-monitor",
+        exec: "wmde-taskmgr",
     };
     pub const DISK_MANAGEMENT: SystemTool = Self {
         exec: "gnome-disks",
