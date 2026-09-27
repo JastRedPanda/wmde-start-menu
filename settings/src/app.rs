@@ -82,11 +82,9 @@ impl cosmic::Application for AppModel {
 
     /// Initializes the application with any given flags and startup commands.
     fn init(
-        mut core: cosmic::Core,
+        core: cosmic::Core,
         _flags: Self::Flags,
     ) -> (Self, Task<cosmic::Action<Self::Message>>) {
-        core.window.show_maximize = false;
-
         let about = cosmic::widget::about::About::default()
             .name(fl!("app-title"))
             .icon(icon::from_name(Self::APP_ID))
@@ -117,8 +115,8 @@ impl cosmic::Application for AppModel {
         (app, Task::none())
     }
 
-    /// Elements to pack at the start of the header bar.
-    fn header_start(&'_ self) -> Vec<Element<'_, Self::Message>> {
+    /// Elements to pack on the strip under the title bar.
+    fn header_strip(&'_ self) -> Vec<Element<'_, Self::Message>> {
         let menu_bar = menu::bar(vec![menu::Tree::with_children(
             menu::root(fl!("settings")).apply(Element::from),
             menu::items(
