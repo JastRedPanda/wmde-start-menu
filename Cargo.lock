@@ -5421,18 +5421,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "vergen"
-version = "8.3.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2990d9ea5967266ea0ccf413a4aa5c42a93dbcfda9cb49a97de6931726b12566"
-dependencies = [
- "anyhow",
- "cfg-if",
- "rustversion",
- "time",
-]
-
-[[package]]
 name = "version_check"
 version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6550,23 +6538,6 @@ dependencies = [
  "unicode-normalization",
  "users",
  "zbus",
-]
-
-[[package]]
-name = "wmde-start-menu-settings"
-version = "1.9.0"
-dependencies = [
- "futures-util",
- "i18n-embed",
- "i18n-embed-fl",
- "libcosmic",
- "log",
- "rust-embed",
- "simple_logger",
- "tokio",
- "vergen",
- "walkdir",
- "wmde-start-menu-applet",
 ]
 
 [[package]]

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ['applet', 'settings']
+members = ['applet']
 
 [workspace.dependencies]
 # Unified workspace dependency versions to avoid duplicate resolution

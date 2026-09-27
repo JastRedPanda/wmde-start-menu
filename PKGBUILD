@@ -43,7 +43,7 @@ build() {
 
 package() {
   cd "$srcdir/$pkgname"
-  # installs wmde-start-menu-{applet,settings} to /usr/bin and the
+  # installs wmde-start-menu-applet to /usr/bin and the
   # fun.wmde.start-menu .desktop/metainfo/icon/applet-buttons to /usr/share
   just rootdir="$pkgdir" prefix=/usr install
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"

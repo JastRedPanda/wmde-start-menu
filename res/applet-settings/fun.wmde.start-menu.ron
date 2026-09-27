@@ -25,9 +25,11 @@
                     label: { "": "Label", "uk": "Напис" },
                     control: Text(max_len: 32),
                 ),
-                External(
-                    exec: "wmde-start-menu-settings",
-                    label: { "": "Choose the button icon", "uk": "Вибрати значок кнопки" },
+                Setting(
+                    key: "button_icon",
+                    label: { "": "Button icon", "uk": "Значок кнопки" },
+                    control: Icon(dir: "wmde/fun.wmde.start-menu/applet-buttons"),
+                    default: "\"/usr/share/wmde/fun.wmde.start-menu/applet-buttons/default.svg\"",
                 ),
             ],
         ),

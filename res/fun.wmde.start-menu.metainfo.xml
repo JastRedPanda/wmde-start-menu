@@ -137,7 +137,6 @@
   </screenshots>
   <provides>
     <binary>wmde-start-menu-applet</binary>
-    <binary>wmde-start-menu-settings</binary>
   </provides>
   <categories>
     <category>Utility</category>
