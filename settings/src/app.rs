@@ -103,7 +103,7 @@ impl cosmic::Application for AppModel {
             ]);
 
         // Construct the app model with the runtime's core.
-        let app = AppModel {
+        let mut app = AppModel {
             core,
             about,
             context_page: ContextPage::default(),
@@ -112,7 +112,13 @@ impl cosmic::Application for AppModel {
             config: AppletConfig::config(),
         };
 
-        (app, Task::none())
+        // WMDE: the window title is also what the normal title bar shows.
+        let task = match app.core.main_window_id() {
+            Some(id) => app.set_window_title(fl!("app-title"), id),
+            None => Task::none(),
+        };
+
+        (app, task)
     }
 
     /// Elements to pack on the strip under the title bar.
