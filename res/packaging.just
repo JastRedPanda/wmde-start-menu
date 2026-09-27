@@ -64,7 +64,6 @@ uninstall:
 [no-cd]
 install-local:
     install -Dm0755 {{bin-src}} ~/.local/bin/{{name}}-applet
-    install -Dm0755 {{settings-bin-src}} ~/.local/bin/{{name}}-settings
     install -Dm0644 {{desktop-src}} ${XDG_DATA_HOME:-~/.local/share}/applications/{{desktop}}
     install -Dm0644 {{metainfo-src}} ${XDG_DATA_HOME:-~/.local/share}/metainfo/{{metainfo}}
     install -Dm0644 {{icons-src}} ${XDG_DATA_HOME:-~/.local/share}/icons/hicolor/scalable/apps/{{icons}}
@@ -76,7 +75,6 @@ install-local:
 # Uninstalls locally installed files
 uninstall-local:
     rm ~/.local/bin/{{name}}-applet
-    rm ~/.local/bin/{{name}}-settings
     rm ${XDG_DATA_HOME:-~/.local/share}/applications/{{desktop}}
     rm ${XDG_DATA_HOME:-~/.local/share}/metainfo/{{metainfo}}
     rm ${XDG_DATA_HOME:-~/.local/share}/icons/hicolor/scalable/apps/{{icons}}
