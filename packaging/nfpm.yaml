@@ -1,0 +1,90 @@
+# Один конфиг nFPM на оба формата. Стейджинг готовит `just package-staging`,
+# версию всегда подставляет just через env WMDE_VERSION (см. justfile).
+# ВАЖНО: только ${WMDE_VERSION} без :-дефолта — nFPM раскрывает env через
+# os.ExpandEnv и :- не понимает (версия молча станет 0.0.0~rc0).
+name: wmde-start-menu
+arch: amd64
+version: ${WMDE_VERSION}
+release: 1
+maintainer: WMDE <wmde@wmde.fun>
+description: |-
+  WMDE Start Menu - classic launcher applet for COSMIC
+  Windows-style application menu, part of the WMDE desktop.
+  Fork of championpeak87/cosmic-ext-classic-menu.
+homepage: https://wmde.fun
+license: GPL-3.0-only
+section: x11
+# %changelog для rpm генерит just package-staging (иначе E: no-changelogname-tag).
+# Путь от корня репо: nFPM резолвит его от cwd, а не от каталога конфига.
+changelog: target/changelog.yaml
+
+# Базовые имена — нейтральные, точные различия в overrides ниже.
+depends:
+  - libc6 | glibc
+  - libgcc-s1 | libgcc
+  - libxkbcommon0
+  - libwayland-client0
+  - libgl1
+  - libfontconfig1
+  - libfreetype6
+
+suggests:
+  - cosmic-panel
+
+contents:
+  - src: target/staging/usr/bin/wmde-start-menu-applet
+    dst: /usr/bin/wmde-start-menu-applet
+    file_info: { mode: 0755 }
+  - src: target/staging/usr/bin/wmde-start-menu-settings
+    dst: /usr/bin/wmde-start-menu-settings
+    file_info: { mode: 0755 }
+  - src: target/staging/usr/share/applications/fun.wmde.start-menu.desktop
+    dst: /usr/share/applications/fun.wmde.start-menu.desktop
+    file_info: { mode: 0644 }
+  - src: target/staging/usr/share/metainfo/fun.wmde.start-menu.metainfo.xml
+    dst: /usr/share/metainfo/fun.wmde.start-menu.metainfo.xml
+    file_info: { mode: 0644 }
+  - src: target/staging/usr/share/icons/hicolor/scalable/apps/fun.wmde.start-menu.svg
+    dst: /usr/share/icons/hicolor/scalable/apps/fun.wmde.start-menu.svg
+    file_info: { mode: 0644 }
+  - src: target/staging/usr/share/cosmic/fun.wmde.start-menu/
+    dst: /usr/share/cosmic/fun.wmde.start-menu/
+    type: tree
+  # doc (copyright + changelog.Debian.gz) готовит just package-staging.
+  # Только для deb: в rpm нет %doc-разметки у nFPM (E: not-listed-as-documentation),
+  # а лицензия и changelog там и так есть (License-тег + %changelog).
+  - src: target/staging/usr/share/doc/wmde-start-menu/
+    dst: /usr/share/doc/wmde-start-menu/
+    type: tree
+    packager: deb
+
+scripts:
+  postinstall: packaging/postinstall.sh
+  postremove: packaging/postremove.sh
+
+overrides:
+  deb:
+    depends:
+      - libc6
+      - libgcc-s1
+      - libxkbcommon0
+      - libwayland-client0
+      - libgl1
+      - libegl1
+      - libfontconfig1
+      - libfreetype6
+      - libexpat1
+  rpm:
+    # Зависимости через SONAME, а не имена пакетов: имена расходятся между
+    # Fedora (freetype, wayland есть как libwayland-client) и openSUSE
+    # (libfreetype6, libwayland-client0), а SONAME предоставляют обе семьи.
+    depends:
+      - libc.so.6()(64bit)
+      - libgcc_s.so.1()(64bit)
+      - libxkbcommon.so.0()(64bit)
+      - libwayland-client.so.0()(64bit)
+      - libGL.so.1()(64bit)
+      - libEGL.so.1()(64bit)
+      - libfontconfig.so.1()(64bit)
+      - libfreetype.so.6()(64bit)
+      - libexpat.so.1()(64bit)
